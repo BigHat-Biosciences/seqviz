@@ -111,4 +111,18 @@ describe("SeqViz rendering (React)", () => {
     expect(seqValue).toEqual(seq);
     expect(compSeqValue).toEqual(compSeq);
   });
+
+  it("labels index ticks from 1 by default", () => {
+    const { container } = render(<SeqViz {...props} viewer="linear" />);
+    const labels = Array.from(container.querySelectorAll(".la-vz-index-tick-label")).map(l => l.textContent);
+    expect(labels[0]).toEqual("1");
+    expect(labels).not.toContain("0");
+  });
+
+  it("labels index ticks from 0 when zeroIndexed", () => {
+    const { container } = render(<SeqViz {...props} viewer="linear" zeroIndexed />);
+    const labels = Array.from(container.querySelectorAll(".la-vz-index-tick-label")).map(l => l.textContent);
+    expect(labels[0]).toEqual("0");
+    expect(labels).not.toContain("1");
+  });
 });

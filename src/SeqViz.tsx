@@ -152,6 +152,9 @@ export interface SeqVizProps {
   /** the orientation of the viewer(s). "both", the default, has a circular viewer on left and a linear viewer on right. */
   viewer?: "linear" | "circular" | "both" | "both_flip";
 
+  /** whether index labels start at 0 rather than 1. default: false */
+  zeroIndexed?: boolean;
+
   /** how large to make the sequence and elements [0,100]. A larger zoom increases the size of text and elements for that viewer. */
   zoom?: {
     /**
@@ -204,6 +207,7 @@ export default class SeqViz extends React.Component<SeqVizProps, SeqVizState> {
     style: {},
     translations: [],
     viewer: "both",
+    zeroIndexed: false,
     zoom: { circular: 0, linear: 50 },
   };
 
@@ -463,6 +467,7 @@ export default class SeqViz extends React.Component<SeqVizProps, SeqVizState> {
         }),
       ),
       viewer: this.props.viewer || "both",
+      zeroIndexed: !!this.props.zeroIndexed,
       zoom: {
         circular: typeof zoom?.circular == "number" ? Math.min(Math.max(zoom.circular, 0), 100) : 0,
         linear: typeof zoom?.linear == "number" ? Math.min(Math.max(zoom.linear, 0), 100) : 50,

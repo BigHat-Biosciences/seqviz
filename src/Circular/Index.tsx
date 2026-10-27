@@ -22,6 +22,7 @@ interface IndexProps {
   size: Size;
   totalRows: number;
   yDiff: number;
+  zeroIndexed: boolean;
 }
 
 /**
@@ -41,7 +42,7 @@ export class Index extends React.PureComponent<IndexProps> {
   declare context: React.ContextType<typeof CentralIndexContext>;
 
   static getDerivedStateFromProps = (nextProps: IndexProps) => {
-    const { seqLength } = nextProps;
+    const { seqLength, zeroIndexed } = nextProps;
     let centralIndex = 0;
     if (this.context) {
       centralIndex = this.context.circular;
@@ -57,7 +58,7 @@ export class Index extends React.PureComponent<IndexProps> {
     // centralIndex, as the others won't be shown/rendered anyway
     let ticks: number[] = [];
     for (let i = 0; i <= seqLength - indexInc / 2; i += indexInc) {
-      ticks.push(i === 0 ? 1 : i);
+      ticks.push(i === 0 && !zeroIndexed ? 1 : i);
     }
     const tickTolerance = indexInc * 6;
     ticks = ticks.filter(
@@ -137,8 +138,12 @@ export class Index extends React.PureComponent<IndexProps> {
       size,
       totalRows,
       yDiff,
+      zeroIndexed,
     } = this.props;
     const { ticks } = this.state;
+
+    // the label shown for 0-based base i is i + offset
+    const offset = zeroIndexed ? 0 : 1;
 
     if (!showIndex) {
       return null; // don't waste time, don't show
@@ -218,7 +223,7 @@ export class Index extends React.PureComponent<IndexProps> {
 
         {/* The ticks and their index labels */}
         {ticks.map(t => (
-          <g key={`la-vz-tick-${t}`} transform={getRotation(t - 0.5)}>
+          <g key={`la-vz-tick-${t}`} transform={getRotation(t - offset + 0.5)}>
             <path
               className="la-vz-index-tick"
               d={`M ${tickCoorStart.x} ${tickCoorStart.y} L ${tickCoorEnd.x} ${tickCoorEnd.y}`}

@@ -30,6 +30,7 @@ export interface LinearProps {
   showIndex: boolean;
   size: Size;
   translations: NameRange[];
+  zeroIndexed: boolean;
   zoom: { linear: number };
 }
 
@@ -78,6 +79,7 @@ export default class Linear extends React.Component<LinearProps> {
       showIndex,
       size,
       translations,
+      zeroIndexed,
       zoom,
     } = this.props;
 
@@ -211,6 +213,7 @@ export default class Linear extends React.Component<LinearProps> {
           size={size}
           translationRows={translationRows[i]}
           y={yDiff}
+          zeroIndexed={zeroIndexed}
           zoom={zoom}
           zoomed={zoomed}
           onUnmount={onUnmount}

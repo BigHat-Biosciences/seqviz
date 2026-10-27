@@ -14,6 +14,7 @@ interface IndexProps {
   showIndex: boolean;
   size: Size;
   yDiff: number;
+  zeroIndexed: boolean;
   zoom: { linear: number };
 }
 
@@ -25,7 +26,7 @@ export default class Index extends React.PureComponent<IndexProps> {
   // by the number set for tally thresholding and, if it is, 2) add its location to the list
   // of positions for tickInc
   genTicks = () => {
-    const { charWidth, findXAndWidth, firstBase, seq, seqType, size, zoom } = this.props;
+    const { charWidth, findXAndWidth, firstBase, seq, seqType, size, zeroIndexed, zoom } = this.props;
     const seqLength = seq.length;
 
     // the tally's distance on the x-axis is zoom dependent:
@@ -56,10 +57,13 @@ export default class Index extends React.PureComponent<IndexProps> {
       tickInc = tickInc / 2;
     }
 
+    // the label shown for 0-based base i is i + offset
+    const offset = zeroIndexed ? 0 : 1;
+
     // create the array that will hold all the indexes in the array
     const tickIndexes: number[] = [];
     if (firstBase === 0) {
-      tickIndexes.push(1);
+      tickIndexes.push(offset);
     }
 
     let i = 0;
@@ -74,16 +78,16 @@ export default class Index extends React.PureComponent<IndexProps> {
     }
 
     return tickIndexes.map(p => {
-      let { x: tickFromLeft } = findXAndWidth(p - 1, p - 1); // for midpoint
+      let { x: tickFromLeft } = findXAndWidth(p - offset, p - offset); // for midpoint
       tickFromLeft += charWidth / 2;
 
-      let digits = Math.ceil(Math.log10(p + 1)); // digits in num
+      let digits = Math.max(Math.ceil(Math.log10(p + 1)), 1); // digits in num
       digits -= 1; // don't shift for the middle digit
 
       const indexCharWidth = 7.7; // this is pretty stable, can calculate w/ a long number's width / char count
       const textWidth = digits * indexCharWidth;
 
-      let { x: textFromLeft } = findXAndWidth(p - 1, p - 1);
+      let { x: textFromLeft } = findXAndWidth(p - offset, p - offset);
       textFromLeft += charWidth / 2;
       textFromLeft -= textWidth / 2 + 3; // this +3 I cannot explain
       textFromLeft = Math.max(0, textFromLeft); // keep off left edge

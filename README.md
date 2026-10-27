@@ -310,6 +310,10 @@ A function returning whether to select the whole sequence during a keyboard even
 
 Whether to show the complement sequence.
 
+#### `zeroIndexed (=false)`
+
+Whether the index ticks in both viewers are labelled starting from 0 instead of 1. This only affects the displayed labels; `annotations`, `primers`, `selection`, etc. are always 0-based.
+
 #### `rotateOnScroll (=true)`
 
 By default, the circular viewer rotates when scrolling over the viewer. That can be disabled with rotateOnScroll: false.

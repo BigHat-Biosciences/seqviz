@@ -56,6 +56,7 @@ export interface CircularProps {
   showIndex: boolean;
   size: Size;
   yDiff: number;
+  zeroIndexed: boolean;
 }
 
 interface CircularState {
@@ -324,6 +325,7 @@ export default class Circular extends React.Component<CircularProps, CircularSta
       showIndex,
       size,
       yDiff,
+      zeroIndexed,
     } = this.props;
     const { annotationsInRows, inlinedLabels, lineHeight, outerLabels, seqLength } = this.state;
 
@@ -375,6 +377,7 @@ export default class Circular extends React.Component<CircularProps, CircularSta
             size={size}
             totalRows={totalRows}
             yDiff={yDiff}
+            zeroIndexed={zeroIndexed}
           />
           <Find
             genArc={props.genArc}

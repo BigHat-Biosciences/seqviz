@@ -57,6 +57,7 @@ interface SeqViewerContainerProps {
   translations: NameRange[];
   viewer: "linear" | "circular" | "both" | "both_flip";
   width: number;
+  zeroIndexed: boolean;
   zoom: { circular: number; linear: number };
 }
 

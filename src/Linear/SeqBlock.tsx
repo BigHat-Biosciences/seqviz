@@ -55,6 +55,7 @@ export interface SeqBlockProps {
   size: Size;
   translationRows: Translation[][];
   y: number;
+  zeroIndexed: boolean;
   zoom: { linear: number };
   zoomed: boolean;
 }
@@ -264,6 +265,7 @@ export class SeqBlock extends React.PureComponent<SeqBlockProps> {
       showIndex,
       size,
       translationRows,
+      zeroIndexed,
       zoom,
       zoomed,
     } = this.props;
@@ -364,6 +366,7 @@ export class SeqBlock extends React.PureComponent<SeqBlockProps> {
             showIndex={showIndex}
             size={size}
             yDiff={indexRowYDiff}
+            zeroIndexed={zeroIndexed}
             zoom={zoom}
           />
         )}

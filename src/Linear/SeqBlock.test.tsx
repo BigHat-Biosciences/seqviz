@@ -42,6 +42,7 @@ const defaultProps = {
   size: { height: 600, width: 1200 },
   translationRows: [],
   y: 0,
+  zeroIndexed: false,
   zoom: { linear: 50 },
   zoomed: true,
 };
